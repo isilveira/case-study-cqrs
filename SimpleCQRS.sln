@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{89976C38-5AED-46C6-8032-46ACF83A76BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleCQRS", "src\SimpleCQRS\SimpleCQRS.csproj", "{C9E75267-0C84-4108-8E41-660853B9A1BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9E75267-0C84-4108-8E41-660853B9A1BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9E75267-0C84-4108-8E41-660853B9A1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9E75267-0C84-4108-8E41-660853B9A1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9E75267-0C84-4108-8E41-660853B9A1BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C9E75267-0C84-4108-8E41-660853B9A1BA} = {89976C38-5AED-46C6-8032-46ACF83A76BB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B26BB1A-814E-4729-8EFD-94DB3BDD2FF7}
+	EndGlobalSection
+EndGlobal
