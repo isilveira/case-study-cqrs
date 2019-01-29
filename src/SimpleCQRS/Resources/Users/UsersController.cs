@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SimpleCQRS.Core.Application.Users.Commands.DeleteUser;
 using SimpleCQRS.Core.Application.Users.Commands.PostUser;
+using SimpleCQRS.Core.Application.Users.Commands.PutUser;
 using SimpleCQRS.Core.Application.Users.Queries.GetUserByID;
 using SimpleCQRS.Core.Application.Users.Queries.GetUsersByFilter;
 using SimpleCQRS.Exceptions;
@@ -67,15 +69,40 @@ namespace SimpleCQRS.Resources.Users
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut("{userid}")]
+        public async Task<ActionResult<PutUserCommandResponse>> Put(int userid, [FromBody]PutUserCommand command)
         {
+            try
+            {
+                command.UserID = userid;
+                return Ok(await Mediator.Send(command));
+            }
+            catch(NotFoundException nfex)
+            {
+                return NotFound(new Exception(nfex.Message));
+            }
+            catch (Exception ex)
+            {
+                return UnprocessableEntity(ex);
+            }
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{userid}")]
+        public async Task<ActionResult<DeleteUserCommandResponse>> Delete([FromRoute]DeleteUserCommand command)
         {
+            try
+            {
+                return Ok(await Mediator.Send(command));
+            }
+            catch (NotFoundException nfex)
+            {
+                return NotFound(new Exception(nfex.Message));
+            }
+            catch (Exception ex)
+            {
+                return UnprocessableEntity(ex);
+            }
         }
     }
 }

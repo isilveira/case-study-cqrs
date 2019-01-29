@@ -19,5 +19,10 @@ namespace SimpleCQRS.Core.Domain.Entities
             Password = password;
             RegistrationDate = DateTime.Now;
         }
+
+        internal void UpdateData(string email)
+        {
+            Email = email;
+        }
     }
 }

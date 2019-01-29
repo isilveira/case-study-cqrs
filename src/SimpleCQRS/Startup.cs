@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SimpleCQRS.Core.Application.Users.Queries.GetUsersByFilter;
 using SimpleCQRS.Core.Infrastructures.Data.Contexts;
+using FluentValidation.AspNetCore;
+using SimpleCQRS.Core.Application.Users.Commands.PostUser;
 
 namespace SimpleCQRS
 {
@@ -35,7 +37,9 @@ namespace SimpleCQRS
             services.AddDbContext<SingleCQRSContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddMvc();
+            services
+                .AddMvc()
+                .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<PostUserCommandValidator>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
