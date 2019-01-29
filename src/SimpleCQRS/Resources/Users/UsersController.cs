@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SimpleCQRS.Core.Application.Users.Commands.PostUser;
+using SimpleCQRS.Core.Application.Users.Queries.GetUserByID;
 using SimpleCQRS.Core.Application.Users.Queries.GetUsersByFilter;
+using SimpleCQRS.Exceptions;
 using SimpleCQRS.Models.UsersController;
 
 namespace SimpleCQRS.Resources.Users
@@ -19,29 +22,48 @@ namespace SimpleCQRS.Resources.Users
         }
         // GET api/values
         [HttpGet]
-        public Task<GetUsersByFilterQueryResponse> Get(GetUsersRequestViewModel request)
+        public async Task<ActionResult<GetUsersByFilterQueryResponse>> Get([FromQuery]GetUsersByFilterQuery query)
         {
-            return Mediator.Send(new GetUsersByFilterQuery { Email = "italobrian@gmail.com" });
+            try
+            {
+                return Ok(await Mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                return UnprocessableEntity(ex);
+            }
         }
 
         // GET api/values/5
         [HttpGet("{userid}")]
-        public GetUserResponseViewModel Get(GetUserRequestViewModel request)
+        public async Task<ActionResult<GetUserByIDQueryReponse>> Get([FromRoute]GetUserByIDQuery query)
         {
-            var response = new GetUserResponseViewModel
+            try
             {
-                UserID = 5,
-                Email = "mary.doe@mail.com",
-                RegistrationDate = Convert.ToDateTime("2019-01-22 19:27:09")
-            };
-
-            return response;
+                return Ok(await Mediator.Send(query));
+            }
+            catch(NotFoundException ex)
+            {
+                return NotFound(new Exception(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return UnprocessableEntity(ex);
+            }
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<ActionResult<PostUserCommandResponse>> Post([FromBody]PostUserCommand command)
         {
+            try
+            {
+                return Ok(await Mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return UnprocessableEntity(ex);
+            }
         }
 
         // PUT api/values/5

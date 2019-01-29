@@ -21,11 +21,19 @@ namespace SimpleCQRS.Core.Application.Users.Queries.GetUsersByFilter
 
         public async Task<GetUsersByFilterQueryResponse> Handle(GetUsersByFilterQuery request, CancellationToken cancellationToken)
         {
-            var users = await Context.Users.ToListAsync();
+            var query = Context.Users.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(request.Email))
+                query = query.Where(x => x.Email.ToLower().Contains(request.Email.ToLower()));
+
+            var totalResults = await query.CountAsync();
+
+            var users = await query.ToListAsync();
 
             return new GetUsersByFilterQueryResponse
             {
-                TotalResults = 62,
+                Query = request,
+                TotalResults = totalResults,
                 Results = users.Select(
                     x=> new GetUsersByFilterQueryResponseItem
                     {
